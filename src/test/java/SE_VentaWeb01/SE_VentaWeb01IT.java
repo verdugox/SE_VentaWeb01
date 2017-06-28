@@ -5,6 +5,7 @@
  */
 package SE_VentaWeb01;
 
+import java.net.MalformedURLException;
 import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,30 +16,53 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import java.net.URL;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.openqa.selenium.Platform;
 
 /**
  *
  * @author mcetsqa
  */
 public class SE_VentaWeb01IT {
-    
-    public static WebDriver driver = null;
-    
-    @BeforeClass
-    public static void inicializarDriver() {
-        System.setProperty("webdriver.chrome.driver", "chromedriver");
-        driver = new ChromeDriver();
 
-//        System.setProperty("webdriver.gecko.driver", "geckodriver"); 
-//        driver = new FirefoxDriver();
+    public static WebDriver driver;
+//    public static final String USERNAME = "luis.acuna@ibusplus.com";
+//    public static final String ACCESS_KEY = "e2a73801-e319-4cd2-bb55-a3634e24459c";
+//    public static final String URL = "http://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.saucelabs.com:80/wd/hub";
+
+//    @BeforeClass
+//    public static void inicializarDriver() {
+//        System.setProperty("webdriver.chrome.driver", "chromedriver");
+//        driver = new ChromeDriver();
+//
+////        System.setProperty("webdriver.gecko.driver", "geckodriver"); 
+////        driver = new FirefoxDriver();
+//    }
+    @Before
+    public void inicializarDriverSauceLab() throws Exception {
+
+//        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        caps.setCapability("version", "52");
+        caps.setCapability("platform", Platform.LINUX);
+        this.driver = new RemoteWebDriver(new URL("http://verdugox123:e2a73801-e319-4cd2-bb55-a3634e24459c@ondemand.saucelabs.com:80/wd/hub"), caps);
+
     }
-    
-       @Test
+
+    @Test
     public void comprobarFlujoCorrectoBusqueda() throws InterruptedException {
         driver.get("http://testredcoach.mcets-inc.com/public/websale");
-
         //ORIGEN
         WebElement origen = driver.findElement(By.id("departureCityCbx-combobox"));
         origen.clear();
@@ -149,7 +173,7 @@ public class SE_VentaWeb01IT {
         Thread.sleep(2000);
         WebElement idcardExpMonth = driver.findElement(By.xpath(".//*[@id='idcardExpMonth']/option[9]"));
         idcardExpMonth.click();
-        
+
         driver.findElement(By.id("idcardExpYear")).click();
         Thread.sleep(2000);
         WebElement idcardExpYear = driver.findElement(By.xpath(".//*[@id='idcardExpYear']/option[8]"));
@@ -166,13 +190,11 @@ public class SE_VentaWeb01IT {
         WebElement btn_paypalRegister = driver.findElement(By.id("btn-paypalRegister"));
         Thread.sleep(2000);
         btn_paypalRegister.click();
-        
+
     }
-    
-    //    @AfterClass
-//    public static void liquidarDriver() {
-//        driver.close();
-//        driver.quit();
-//    }
-    
+
+    @After
+    public void liquidarDriver() throws Exception{
+        driver.quit();
+    }
 }
