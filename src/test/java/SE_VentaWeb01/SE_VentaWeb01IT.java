@@ -54,8 +54,8 @@ public class SE_VentaWeb01IT {
 
 //        DesiredCapabilities caps = DesiredCapabilities.chrome();
         DesiredCapabilities caps = DesiredCapabilities.chrome();
-        caps.setCapability("version", "52");
-        caps.setCapability("platform", Platform.LINUX);
+        caps.setCapability("version", "50");
+        caps.setCapability("platform", Platform.WIN8_1);
         this.driver = new RemoteWebDriver(new URL("http://verdugox123:e2a73801-e319-4cd2-bb55-a3634e24459c@ondemand.saucelabs.com:80/wd/hub"), caps);
 
     }
@@ -95,7 +95,7 @@ public class SE_VentaWeb01IT {
 
     @Test
     public void comprobarFlujoCorrectoSeleccion() throws InterruptedException {
-        Thread.sleep(1000);
+//        Thread.sleep(2000);
         List<WebElement> travelGO = driver.findElements(By.name("travelsGO"));
         for (WebElement Select_travelGO : travelGO) {
             if (!Select_travelGO.isSelected()) {
@@ -104,6 +104,7 @@ public class SE_VentaWeb01IT {
         }
 
         WebElement btnStepSelectSeats = driver.findElement(By.id("btnStepSelectSeats"));
+        Thread.sleep(2000);
         btnStepSelectSeats.click();
 
     }
@@ -193,8 +194,8 @@ public class SE_VentaWeb01IT {
 
     }
 
-    @After
-    public void liquidarDriver() throws Exception{
-        driver.quit();
-    }
+//    @After
+//    public void liquidarDriver() throws Exception{
+//        driver.quit();
+//    }
 }
